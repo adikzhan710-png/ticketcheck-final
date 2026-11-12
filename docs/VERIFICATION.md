@@ -42,5 +42,24 @@ The report counts dependency entries, not nine independently demonstrated exploi
 in TicketCheck. Identifier squatting, immutable organizer keys and physical gate
 trust remain documented prototype limitations in SECURITY.md.
 
-No browser interface, load test, external security audit, published repository or
-recorded video has been verified or delivered in this stage.
+## Local interface update
+
+Added a Russian browser interface and a Node HTTP server bound to 127.0.0.1:4317.
+Every action calls the deployed contract in the in-process local Hardhat network.
+The server controls all fictional role accounts; this is a demonstration console,
+not user authentication or a wallet integration.
+
+Verified the HTTP workflow with `node scripts/check-ui.mjs`: issue, transfer,
+old-owner rejection, stale authorization clearing, owner-authorized admission,
+duplicate-admission rejection, revocation, reset, cross-origin write rejection and
+invalid JSON handling. TypeScript checking passed after adding the server.
+
+Verified the visible browser buttons end to end: issued to Alice, transferred to
+Bob, rejected Alice's entry permission, accepted Bob's permission, redeemed once,
+then rejected a second redemption. State and error messages were visible in the UI.
+The successful contract unit tests above cover the unchanged contract.
+
+Code is published in the private repository:
+https://github.com/adikzhan710-png/ticketcheck-final
+
+No load test, external security audit or recorded video has been delivered.

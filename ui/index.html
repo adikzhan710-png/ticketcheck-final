@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TicketCheck — локальная демонстрация</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f5f2ea;
+      --paper-strong: #fffdf8;
+      --ink: #12263a;
+      --ink-soft: #546577;
+      --line: #d9d7ce;
+      --teal: #087f7a;
+      --teal-dark: #05625e;
+      --teal-soft: #d9efeb;
+      --gold: #d6a84b;
+      --danger: #b43a3a;
+      --danger-soft: #f8e3df;
+      --shadow: 0 18px 45px rgba(18, 38, 58, 0.10);
+      --radius: 20px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 8% 2%, rgba(8, 127, 122, 0.13), transparent 30rem),
+        linear-gradient(135deg, #f9f7f1 0%, var(--paper) 55%, #edf3f0 100%);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    button { font: inherit; }
+
+    .shell {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 36px 0 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+
+    .brand { display: flex; align-items: center; gap: 14px; }
+
+    .brand-mark {
+      display: grid;
+      width: 48px;
+      height: 48px;
+      place-items: center;
+      border-radius: 14px;
+      background: var(--ink);
+      color: #fff;
+      font-size: 22px;
+      font-weight: 800;
+      letter-spacing: -0.06em;
+      box-shadow: 0 10px 24px rgba(18, 38, 58, 0.24);
+    }
+
+    .brand-name { font-size: 19px; font-weight: 800; letter-spacing: -0.02em; }
+    .brand-note { color: var(--ink-soft); font-size: 13px; }
+
+    .network {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 253, 248, 0.8);
+      color: var(--ink-soft);
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .network::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      box-shadow: 0 0 0 4px var(--teal-soft);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(330px, 0.85fr);
+      gap: 26px;
+      align-items: stretch;
+      margin-bottom: 26px;
+    }
+
+    .intro, .ticket, .role, .timeline {
+      border: 1px solid rgba(18, 38, 58, 0.10);
+      border-radius: var(--radius);
+      background: rgba(255, 253, 248, 0.88);
+      box-shadow: var(--shadow);
+    }
+
+    .intro {
+      padding: clamp(28px, 5vw, 54px);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .intro::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      right: -80px;
+      bottom: -110px;
+      border: 38px solid rgba(8, 127, 122, 0.08);
+      border-radius: 50%;
+    }
+
+    .eyebrow {
+      color: var(--teal-dark);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 700px;
+      margin: 12px 0 16px;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+    }
+
+    .lead { max-width: 650px; margin: 0; color: var(--ink-soft); font-size: 17px; }
+
+    .notice {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid var(--line);
+      color: var(--ink-soft);
+      font-size: 13px;
+    }
+
+    .notice strong { color: var(--ink); }
+
+    .ticket {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      min-height: 340px;
+      padding: 28px;
+      overflow: hidden;
+      background: var(--ink);
+      color: #fff;
+    }
+
+    .ticket::before, .ticket::after {
+      content: "";
+      position: absolute;
+      top: 52%;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--paper);
+    }
+
+    .ticket::before { left: -18px; }
+    .ticket::after { right: -18px; }
+
+    .ticket-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+    .ticket-label { color: #b8c7d2; font-size: 12px; font-weight: 750; letter-spacing: 0.12em; text-transform: uppercase; }
+    .ticket-id { margin-top: 3px; font-size: 30px; font-weight: 850; letter-spacing: -0.04em; }
+
+    .status-pill {
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.11);
+      color: #f4f9f8;
+      font-size: 12px;
+      font-weight: 750;
+      text-align: center;
+    }
+
+    .status-pill.active { background: var(--teal); }
+    .status-pill.used { background: #5d7182; }
+    .status-pill.revoked { background: var(--danger); }
+
+    .ticket-main { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: auto; padding: 28px 0 26px; }
+    .ticket-value { margin-top: 4px; font-size: 19px; font-weight: 750; }
+    .ticket-foot { padding-top: 20px; border-top: 1px dashed rgba(255,255,255,0.3); }
+    .contract-address { margin-top: 5px; color: #d7e1e6; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; overflow-wrap: anywhere; }
+
+    .flash {
+      display: none;
+      margin: 0 0 22px;
+      padding: 14px 16px;
+      border: 1px solid #e3aaa2;
+      border-radius: 14px;
+      background: var(--danger-soft);
+      color: #812828;
+      font-weight: 650;
+    }
+    .flash.visible { display: block; }
+
+    .roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+    .role { padding: 22px; box-shadow: 0 10px 30px rgba(18, 38, 58, 0.07); }
+    .role-number { color: var(--teal); font-size: 12px; font-weight: 800; letter-spacing: 0.12em; }
+    .role h2 { margin: 6px 0 8px; font-size: 22px; letter-spacing: -0.03em; }
+    .role p { min-height: 48px; margin: 0 0 18px; color: var(--ink-soft); font-size: 14px; }
+
+    .actions { display: grid; gap: 10px; }
+
+    .action {
+      width: 100%;
+      min-height: 44px;
+      padding: 10px 14px;
+      border: 1px solid var(--ink);
+      border-radius: 12px;
+      background: var(--ink);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 750;
+      transition: transform 130ms ease, background 130ms ease, opacity 130ms ease;
+    }
+
+    .action:hover:not(:disabled) { transform: translateY(-1px); background: #1c3850; }
+    .action:focus-visible { outline: 3px solid rgba(8,127,122,0.28); outline-offset: 3px; }
+    .action.secondary { border-color: #9fb2b9; background: transparent; color: var(--ink); }
+    .action.secondary:hover:not(:disabled) { background: var(--teal-soft); }
+    .action.danger { border-color: #d38b84; background: transparent; color: var(--danger); }
+    .action.danger:hover:not(:disabled) { background: var(--danger-soft); }
+    .action:disabled { cursor: wait; opacity: 0.55; }
+
+    .account {
+      margin-top: 14px;
+      color: var(--ink-soft);
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 11px;
+      overflow-wrap: anywhere;
+    }
+
+    .timeline { margin-top: 22px; padding: 24px; box-shadow: 0 10px 30px rgba(18, 38, 58, 0.07); }
+    .timeline-head { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin-bottom: 16px; }
+    .timeline h2 { margin: 0; font-size: 24px; letter-spacing: -0.035em; }
+    .authorization { color: var(--ink-soft); font-size: 13px; text-align: right; }
+    .log { display: grid; gap: 2px; margin: 0; padding: 0; list-style: none; }
+    .log-item { display: grid; grid-template-columns: 76px 16px 1fr; gap: 10px; align-items: start; padding: 12px 0; border-top: 1px solid var(--line); }
+    .log-time { color: var(--ink-soft); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 12px; }
+    .log-dot { width: 9px; height: 9px; margin-top: 5px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 0 4px var(--teal-soft); }
+    .log-item.failed .log-dot { background: var(--danger); box-shadow: 0 0 0 4px var(--danger-soft); }
+    .log-message { font-size: 14px; }
+    .log-hash { display: block; margin-top: 3px; color: var(--ink-soft); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 11px; overflow-wrap: anywhere; }
+    .empty-log { padding: 18px 0 6px; color: var(--ink-soft); font-size: 14px; }
+
+    .footer-actions { display: flex; justify-content: flex-end; margin-top: 18px; }
+    .reset { width: auto; min-width: 170px; }
+
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; }
+      .roles { grid-template-columns: 1fr; }
+      .role p { min-height: 0; }
+    }
+
+    @media (max-width: 560px) {
+      .shell { width: min(100% - 20px, 1180px); padding-top: 18px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .intro, .ticket, .role, .timeline { border-radius: 16px; }
+      .intro, .ticket { padding: 22px; }
+      .ticket-main { grid-template-columns: 1fr; gap: 12px; }
+      .timeline-head { align-items: flex-start; flex-direction: column; }
+      .authorization { text-align: left; }
+      .log-item { grid-template-columns: 58px 14px 1fr; gap: 8px; }
+      .footer-actions .action { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">TC</div>
+        <div>
+          <div class="brand-name">TicketCheck</div>
+          <div class="brand-note">Локальная демонстрация смарт-контракта</div>
+        </div>
+      </div>
+      <div class="network">Hardhat · локальная сеть</div>
+    </header>
+
+    <section class="hero" aria-labelledby="page-title">
+      <article class="intro">
+        <div class="eyebrow">Учебный прототип</div>
+        <h1 id="page-title">Один билет.<br>Один владелец.<br>Один проход.</h1>
+        <p class="lead">Организатор выпускает билет, владелец может передать его другому аккаунту, а сотрудник входа погашает его только после явного разрешения текущего владельца.</p>
+        <div class="notice">
+          <span aria-hidden="true">ⓘ</span>
+          <span><strong>Без реальных средств и данных.</strong> Все роли используют тестовые аккаунты локальной сети. Команды подписывает демонстрационный сервер.</span>
+        </div>
+      </article>
+
+      <article class="ticket" aria-label="Текущее состояние билета">
+        <div class="ticket-head">
+          <div>
+            <div class="ticket-label">Билет</div>
+            <div class="ticket-id" id="ticket-id">№ —</div>
+          </div>
+          <div class="status-pill" id="ticket-status">Загрузка…</div>
+        </div>
+        <div class="ticket-main">
+          <div>
+            <div class="ticket-label">Мероприятие</div>
+            <div class="ticket-value" id="event-id">—</div>
+          </div>
+          <div>
+            <div class="ticket-label">Текущий владелец</div>
+            <div class="ticket-value" id="ticket-owner">—</div>
+          </div>
+        </div>
+        <div class="ticket-foot">
+          <div class="ticket-label">Контракт</div>
+          <div class="contract-address" id="contract-address">Подключение…</div>
+        </div>
+      </article>
+    </section>
+
+    <div class="flash" id="flash" role="alert" aria-live="assertive"></div>
+
+    <section class="roles" aria-label="Действия участников">
+      <article class="role">
+        <div class="role-number">РОЛЬ 01</div>
+        <h2>Организатор</h2>
+        <p>Выпускает билет для Алисы и может отменить действующий билет своего мероприятия.</p>
+        <div class="actions">
+          <button class="action" data-action="issue">Выпустить билет Алисе</button>
+          <button class="action danger" data-action="revoke">Отменить билет</button>
+        </div>
+        <div class="account" id="account-organizer">Аккаунт: —</div>
+      </article>
+
+      <article class="role">
+        <div class="role-number">РОЛЬ 02</div>
+        <h2>Владелец</h2>
+        <p>Передаёт билет и разрешает конкретному сотруднику использовать его в течение 5 минут.</p>
+        <div class="actions">
+          <button class="action" data-action="transfer">Передать: Алиса → Боб</button>
+          <button class="action secondary" data-action="authorizeAlice">Алиса разрешает вход</button>
+          <button class="action secondary" data-action="authorizeBob">Боб разрешает вход</button>
+        </div>
+        <div class="account" id="account-owners">Алиса: —<br>Боб: —</div>
+      </article>
+
+      <article class="role">
+        <div class="role-number">РОЛЬ 03</div>
+        <h2>Сотрудник входа</h2>
+        <p>Погашает действующий билет после разрешения владельца. Вторая попытка должна быть отклонена.</p>
+        <div class="actions">
+          <button class="action" data-action="redeem">Погасить билет</button>
+        </div>
+        <div class="account" id="account-gate">Аккаунт: —</div>
+      </article>
+    </section>
+
+    <section class="timeline" aria-labelledby="log-title">
+      <div class="timeline-head">
+        <div>
+          <div class="eyebrow">Состояние сети</div>
+          <h2 id="log-title">Журнал действий</h2>
+        </div>
+        <div class="authorization" id="authorization">Разрешение на вход: отсутствует</div>
+      </div>
+      <ol class="log" id="log" aria-live="polite"></ol>
+      <div class="footer-actions">
+        <button class="action secondary reset" data-action="reset">Начать заново</button>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    "use strict";
+
+    const elements = {
+      ticketId: document.querySelector("#ticket-id"),
+      eventId: document.querySelector("#event-id"),
+      status: document.querySelector("#ticket-status"),
+      owner: document.querySelector("#ticket-owner"),
+      contract: document.querySelector("#contract-address"),
+      authorization: document.querySelector("#authorization"),
+      log: document.querySelector("#log"),
+      flash: document.querySelector("#flash"),
+      organizer: document.querySelector("#account-organizer"),
+      owners: document.querySelector("#account-owners"),
+      gate: document.querySelector("#account-gate"),
+      buttons: Array.from(document.querySelectorAll("[data-action]")),
+    };
+
+    function shortAddress(value) {
+      if (!value || value.length < 13) return value || "—";
+      return `${value.slice(0, 8)}…${value.slice(-6)}`;
+    }
+
+    function formatDeadline(value) {
+      if (!value) return "—";
+      const number = Number(value);
+      const date = new Date(number < 10_000_000_000 ? number * 1000 : number);
+      return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+    }
+
+    function setLoading(loading) {
+      elements.buttons.forEach((button) => { button.disabled = loading; });
+      document.body.setAttribute("aria-busy", String(loading));
+    }
+
+    function showError(message) {
+      elements.flash.textContent = message || "Операция отклонена контрактом";
+      elements.flash.classList.add("visible");
+    }
+
+    function clearError() {
+      elements.flash.textContent = "";
+      elements.flash.classList.remove("visible");
+    }
+
+    function renderLogs(logs) {
+      elements.log.replaceChildren();
+      if (!Array.isArray(logs) || logs.length === 0) {
+        const empty = document.createElement("li");
+        empty.className = "empty-log";
+        empty.textContent = "Действий пока нет. Начните с выпуска билета.";
+        elements.log.append(empty);
+        return;
+      }
+
+      logs.slice().reverse().forEach((entry) => {
+        const item = document.createElement("li");
+        item.className = `log-item${entry.ok === false ? " failed" : ""}`;
+
+        const time = document.createElement("time");
+        time.className = "log-time";
+        time.textContent = entry.time || "—";
+
+        const dot = document.createElement("span");
+        dot.className = "log-dot";
+        dot.setAttribute("aria-hidden", "true");
+
+        const content = document.createElement("div");
+        const message = document.createElement("div");
+        message.className = "log-message";
+        message.textContent = entry.message || "Операция выполнена";
+        content.append(message);
+
+        if (entry.hash) {
+          const hash = document.createElement("span");
+          hash.className = "log-hash";
+          hash.textContent = `tx ${entry.hash}`;
+          content.append(hash);
+        }
+
+        item.append(time, dot, content);
+        elements.log.append(item);
+      });
+    }
+
+    function render(state) {
+      if (!state) return;
+      elements.ticketId.textContent = `№ ${state.ticketId ?? "—"}`;
+      elements.eventId.textContent = state.eventId ?? "—";
+      elements.status.textContent = state.status || "—";
+      elements.owner.textContent = state.owner || "—";
+      elements.contract.textContent = state.contract || "—";
+
+      elements.status.className = "status-pill";
+      if (state.status === "Действующий") elements.status.classList.add("active");
+      if (state.status === "Использован") elements.status.classList.add("used");
+      if (state.status === "Отменён") elements.status.classList.add("revoked");
+
+      const accounts = state.accounts || {};
+      elements.organizer.textContent = `Аккаунт: ${shortAddress(accounts.organizer)}`;
+      elements.owners.replaceChildren();
+      elements.owners.append(
+        document.createTextNode(`Алиса: ${shortAddress(accounts.alice)}`),
+        document.createElement("br"),
+        document.createTextNode(`Боб: ${shortAddress(accounts.bob)}`),
+      );
+      elements.gate.textContent = `Аккаунт: ${shortAddress(accounts.gate)}`;
+
+      if (state.authorization) {
+        const owner = state.authorization.owner || "владелец";
+        const gate = shortAddress(state.authorization.gate);
+        elements.authorization.textContent = `Разрешение: ${owner} → ${gate}, до ${formatDeadline(state.authorization.validUntil)}`;
+      } else {
+        elements.authorization.textContent = "Разрешение на вход: отсутствует";
+      }
+
+      renderLogs(state.logs);
+    }
+
+    async function readResponse(response) {
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        if (payload.state) render(payload.state);
+        throw new Error(payload.error || `Ошибка сервера: ${response.status}`);
+      }
+      return payload;
+    }
+
+    async function loadState() {
+      setLoading(true);
+      clearError();
+      try {
+        const response = await fetch("/api/state", { headers: { Accept: "application/json" } });
+        render(await readResponse(response));
+      } catch (error) {
+        showError(`Не удалось подключиться к локальному демо-серверу. ${error.message}`);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    async function runAction(action) {
+      setLoading(true);
+      clearError();
+      try {
+        const response = await fetch("/api/action", {
+          method: "POST",
+          headers: { "Content-Type": "application/json", Accept: "application/json" },
+          body: JSON.stringify({ action }),
+        });
+        render(await readResponse(response));
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    elements.buttons.forEach((button) => {
+      button.addEventListener("click", () => runAction(button.dataset.action));
+    });
+
+    loadState();
+  </script>
+</body>
+</html>

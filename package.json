@@ -7,7 +7,8 @@
     "build": "hardhat build",
     "demo": "hardhat run scripts/demo.ts",
     "typecheck": "tsc --noEmit",
-    "node": "hardhat node --hostname 127.0.0.1"
+    "node": "hardhat node --hostname 127.0.0.1",
+    "start": "hardhat run scripts/server.ts"
   },
   "keywords": [],
   "author": "",
