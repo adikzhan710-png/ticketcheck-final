@@ -1,0 +1,28 @@
+{
+  "name": "ticketcheck",
+  "version": "1.0.0",
+  "description": "Local educational TicketCheck prototype",
+  "scripts": {
+    "test": "hardhat test",
+    "build": "hardhat build",
+    "demo": "hardhat run scripts/demo.ts",
+    "typecheck": "tsc --noEmit",
+    "node": "hardhat node --hostname 127.0.0.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-network-helpers": "3.0.12",
+    "@nomicfoundation/hardhat-node-test-runner": "3.1.2",
+    "@nomicfoundation/hardhat-viem": "3.1.0",
+    "@nomicfoundation/hardhat-viem-assertions": "3.1.5",
+    "@types/node": "26.6.6",
+    "hardhat": "3.22.0",
+    "solc": "0.8.28",
+    "typescript": "7.0.2",
+    "viem": "2.57.19"
+  },
+  "private": true
+}
