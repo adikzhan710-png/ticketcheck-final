@@ -10,19 +10,19 @@ async function act(action, code = 200) {
 }
 assert.equal((await fetch(url)).status, 200);
 await act('reset');
-assert.equal((await act('redeem', 422)).status, 'Не выпущен');
-assert.equal((await act('issue')).owner, 'Алиса');
+assert.equal((await act('redeem', 422)).status, 'Not issued');
+assert.equal((await act('issue')).owner, 'Alice');
 await act('issue', 422);
 await act('authorizeAlice');
 assert.equal((await act('transfer')).authorization, null);
 await act('authorizeAlice', 422);
 await act('redeem', 422);
-assert.equal((await act('authorizeBob')).authorization.owner, 'Боб');
-assert.equal((await act('redeem')).status, 'Использован');
+assert.equal((await act('authorizeBob')).authorization.owner, 'Bob');
+assert.equal((await act('redeem')).status, 'Used');
 await act('redeem', 422);
 await act('reset');
 await act('issue');
-assert.equal((await act('revoke')).status, 'Отменён');
+assert.equal((await act('revoke')).status, 'Revoked');
 await act('transfer', 422);
 await act('authorizeAlice', 422);
 await act('reset');

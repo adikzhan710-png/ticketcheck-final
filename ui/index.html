@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>TicketCheck — локальная демонстрация</title>
+  <title>TicketCheck — Local Demo</title>
   <style>
     :root {
       color-scheme: light;
@@ -296,96 +296,96 @@
         <div class="brand-mark" aria-hidden="true">TC</div>
         <div>
           <div class="brand-name">TicketCheck</div>
-          <div class="brand-note">Локальная демонстрация смарт-контракта</div>
+          <div class="brand-note">Local smart-contract demonstration</div>
         </div>
       </div>
-      <div class="network">Hardhat · локальная сеть</div>
+      <div class="network">Hardhat · Local network</div>
     </header>
 
     <section class="hero" aria-labelledby="page-title">
       <article class="intro">
-        <div class="eyebrow">Учебный прототип</div>
-        <h1 id="page-title">Один билет.<br>Один владелец.<br>Один проход.</h1>
-        <p class="lead">Организатор выпускает билет, владелец может передать его другому аккаунту, а сотрудник входа погашает его только после явного разрешения текущего владельца.</p>
+        <div class="eyebrow">Educational prototype</div>
+        <h1 id="page-title">One ticket.<br>One owner.<br>One entry.</h1>
+        <p class="lead">The organizer issues a ticket, its owner can transfer it to another account, and the gate operator redeems it only with the current owner's explicit permission.</p>
         <div class="notice">
           <span aria-hidden="true">ⓘ</span>
-          <span><strong>Без реальных средств и данных.</strong> Все роли используют тестовые аккаунты локальной сети. Команды подписывает демонстрационный сервер.</span>
+          <span><strong>No real funds or personal data.</strong> All roles use test accounts on a local network. The demo server signs the commands.</span>
         </div>
       </article>
 
-      <article class="ticket" aria-label="Текущее состояние билета">
+      <article class="ticket" aria-label="Current ticket state">
         <div class="ticket-head">
           <div>
-            <div class="ticket-label">Билет</div>
+            <div class="ticket-label">Ticket</div>
             <div class="ticket-id" id="ticket-id">№ —</div>
           </div>
-          <div class="status-pill" id="ticket-status">Загрузка…</div>
+          <div class="status-pill" id="ticket-status">Loading…</div>
         </div>
         <div class="ticket-main">
           <div>
-            <div class="ticket-label">Мероприятие</div>
+            <div class="ticket-label">Event</div>
             <div class="ticket-value" id="event-id">—</div>
           </div>
           <div>
-            <div class="ticket-label">Текущий владелец</div>
+            <div class="ticket-label">Current owner</div>
             <div class="ticket-value" id="ticket-owner">—</div>
           </div>
         </div>
         <div class="ticket-foot">
-          <div class="ticket-label">Контракт</div>
-          <div class="contract-address" id="contract-address">Подключение…</div>
+          <div class="ticket-label">Contract</div>
+          <div class="contract-address" id="contract-address">Connecting…</div>
         </div>
       </article>
     </section>
 
     <div class="flash" id="flash" role="alert" aria-live="assertive"></div>
 
-    <section class="roles" aria-label="Действия участников">
+    <section class="roles" aria-label="Participant actions">
       <article class="role">
-        <div class="role-number">РОЛЬ 01</div>
-        <h2>Организатор</h2>
-        <p>Выпускает билет для Алисы и может отменить действующий билет своего мероприятия.</p>
+        <div class="role-number">ROLE 01</div>
+        <h2>Organizer</h2>
+        <p>Issues a ticket to Alice and can revoke an active ticket for this event.</p>
         <div class="actions">
-          <button class="action" data-action="issue">Выпустить билет Алисе</button>
-          <button class="action danger" data-action="revoke">Отменить билет</button>
+          <button class="action" data-action="issue">Issue ticket to Alice</button>
+          <button class="action danger" data-action="revoke">Revoke ticket</button>
         </div>
-        <div class="account" id="account-organizer">Аккаунт: —</div>
+        <div class="account" id="account-organizer">Account: —</div>
       </article>
 
       <article class="role">
-        <div class="role-number">РОЛЬ 02</div>
-        <h2>Владелец</h2>
-        <p>Передаёт билет и разрешает конкретному сотруднику использовать его в течение 5 минут.</p>
+        <div class="role-number">ROLE 02</div>
+        <h2>Owner</h2>
+        <p>Transfers the ticket and authorizes a specific gate operator to redeem it within 5 minutes.</p>
         <div class="actions">
-          <button class="action" data-action="transfer">Передать: Алиса → Боб</button>
-          <button class="action secondary" data-action="authorizeAlice">Алиса разрешает вход</button>
-          <button class="action secondary" data-action="authorizeBob">Боб разрешает вход</button>
+          <button class="action" data-action="transfer">Transfer: Alice → Bob</button>
+          <button class="action secondary" data-action="authorizeAlice">Alice authorizes entry</button>
+          <button class="action secondary" data-action="authorizeBob">Bob authorizes entry</button>
         </div>
-        <div class="account" id="account-owners">Алиса: —<br>Боб: —</div>
+        <div class="account" id="account-owners">Alice: —<br>Bob: —</div>
       </article>
 
       <article class="role">
-        <div class="role-number">РОЛЬ 03</div>
-        <h2>Сотрудник входа</h2>
-        <p>Погашает действующий билет после разрешения владельца. Вторая попытка должна быть отклонена.</p>
+        <div class="role-number">ROLE 03</div>
+        <h2>Gate operator</h2>
+        <p>Redeems an active ticket with the owner's permission. A second attempt must be rejected.</p>
         <div class="actions">
-          <button class="action" data-action="redeem">Погасить билет</button>
+          <button class="action" data-action="redeem">Redeem ticket</button>
         </div>
-        <div class="account" id="account-gate">Аккаунт: —</div>
+        <div class="account" id="account-gate">Account: —</div>
       </article>
     </section>
 
     <section class="timeline" aria-labelledby="log-title">
       <div class="timeline-head">
         <div>
-          <div class="eyebrow">Состояние сети</div>
-          <h2 id="log-title">Журнал действий</h2>
+          <div class="eyebrow">Network state</div>
+          <h2 id="log-title">Activity log</h2>
         </div>
-        <div class="authorization" id="authorization">Разрешение на вход: отсутствует</div>
+        <div class="authorization" id="authorization">Entry permission: none</div>
       </div>
       <ol class="log" id="log" aria-live="polite"></ol>
       <div class="footer-actions">
-        <button class="action secondary reset" data-action="reset">Начать заново</button>
+        <button class="action secondary reset" data-action="reset">Start again</button>
       </div>
     </section>
   </main>
@@ -417,7 +417,7 @@
       if (!value) return "—";
       const number = Number(value);
       const date = new Date(number < 10_000_000_000 ? number * 1000 : number);
-      return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleTimeString("ru-RU", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
+      return Number.isNaN(date.getTime()) ? String(value) : date.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit", second: "2-digit" });
     }
 
     function setLoading(loading) {
@@ -426,7 +426,7 @@
     }
 
     function showError(message) {
-      elements.flash.textContent = message || "Операция отклонена контрактом";
+      elements.flash.textContent = message || "Action rejected by the contract";
       elements.flash.classList.add("visible");
     }
 
@@ -440,7 +440,7 @@
       if (!Array.isArray(logs) || logs.length === 0) {
         const empty = document.createElement("li");
         empty.className = "empty-log";
-        empty.textContent = "Действий пока нет. Начните с выпуска билета.";
+        empty.textContent = "No actions yet. Start by issuing a ticket.";
         elements.log.append(empty);
         return;
       }
@@ -460,7 +460,7 @@
         const content = document.createElement("div");
         const message = document.createElement("div");
         message.className = "log-message";
-        message.textContent = entry.message || "Операция выполнена";
+        message.textContent = entry.message || "Action completed";
         content.append(message);
 
         if (entry.hash) {
@@ -484,26 +484,26 @@
       elements.contract.textContent = state.contract || "—";
 
       elements.status.className = "status-pill";
-      if (state.status === "Действующий") elements.status.classList.add("active");
-      if (state.status === "Использован") elements.status.classList.add("used");
-      if (state.status === "Отменён") elements.status.classList.add("revoked");
+      if (state.status === "Active") elements.status.classList.add("active");
+      if (state.status === "Used") elements.status.classList.add("used");
+      if (state.status === "Revoked") elements.status.classList.add("revoked");
 
       const accounts = state.accounts || {};
-      elements.organizer.textContent = `Аккаунт: ${shortAddress(accounts.organizer)}`;
+      elements.organizer.textContent = `Account: ${shortAddress(accounts.organizer)}`;
       elements.owners.replaceChildren();
       elements.owners.append(
-        document.createTextNode(`Алиса: ${shortAddress(accounts.alice)}`),
+        document.createTextNode(`Alice: ${shortAddress(accounts.alice)}`),
         document.createElement("br"),
-        document.createTextNode(`Боб: ${shortAddress(accounts.bob)}`),
+        document.createTextNode(`Bob: ${shortAddress(accounts.bob)}`),
       );
-      elements.gate.textContent = `Аккаунт: ${shortAddress(accounts.gate)}`;
+      elements.gate.textContent = `Account: ${shortAddress(accounts.gate)}`;
 
       if (state.authorization) {
-        const owner = state.authorization.owner || "владелец";
+        const owner = state.authorization.owner || "owner";
         const gate = shortAddress(state.authorization.gate);
-        elements.authorization.textContent = `Разрешение: ${owner} → ${gate}, до ${formatDeadline(state.authorization.validUntil)}`;
+        elements.authorization.textContent = `Permission: ${owner} → ${gate}, until ${formatDeadline(state.authorization.validUntil)}`;
       } else {
-        elements.authorization.textContent = "Разрешение на вход: отсутствует";
+        elements.authorization.textContent = "Entry permission: none";
       }
 
       renderLogs(state.logs);
@@ -513,7 +513,7 @@
       const payload = await response.json().catch(() => ({}));
       if (!response.ok) {
         if (payload.state) render(payload.state);
-        throw new Error(payload.error || `Ошибка сервера: ${response.status}`);
+        throw new Error(payload.error || `Server error: ${response.status}`);
       }
       return payload;
     }
@@ -525,7 +525,7 @@
         const response = await fetch("/api/state", { headers: { Accept: "application/json" } });
         render(await readResponse(response));
       } catch (error) {
-        showError(`Не удалось подключиться к локальному демо-серверу. ${error.message}`);
+        showError(`Could not connect to the local demo server. ${error.message}`);
       } finally {
         setLoading(false);
       }
